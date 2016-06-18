@@ -33,8 +33,16 @@ cp config_example.json config.json
 
 Modify config.json to use your tivo ip address and Alexa App Id
 
-If you want to run as a service
-Modify parameters in init.d/alexa-tivo and then:
+If you plan to run this locally or on your development server you will need to generate a self-signed cert.
+
+```bash
+cd ssl
+./gen-cert.sh
+```
+Follow the prompts.
+
+If you want to run as a service on linux modify the parameters in init.d/alexa-tivo and then:
+
 ```bash
 cp  init.d/alexa-tivo /etc/init.d/alexa-tivo
 update-rc.d alexa-tivo defaults
@@ -42,10 +50,10 @@ update-rc.d alexa-tivo defaults
 
 Enable the network remote control on your Tivo
 
-
 ## Contact
 
 Nate Greene
 
 - https://github.com/natejgreene
 - http://twitter.com/natejgreene
+
