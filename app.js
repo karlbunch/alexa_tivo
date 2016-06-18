@@ -1,10 +1,18 @@
 var config = require('./config.json');
 
-var express     = require('express'),
+var https       = require('https'),
+    fs          = require('fs'),
+    express     = require('express'),
     AlexaSkills = require('alexa-skills'),
     app         = express(),
-    port        = process.env.PORT || 8080,
-    alexaAppId  = config.alexaAppId
+    port        = config.listenPort,
+    alexaAppId  = config.alexaAppId,
+    server      = https.createServer({
+        key: fs.readFileSync('./ssl/self-signed-ssl.key'),
+	cert: fs.readFileSync('./ssl/self-signed-ssl.pem'),
+	requestCert: true,
+	rejectUnauthorized: false
+    }, app),
     alexa = new AlexaSkills({
         express: app, // required 
         route: "/", // optional, defaults to "/" 
@@ -24,8 +32,7 @@ alexa.launch(function(req, res) {
 });
  
 alexa.intent('SendCommand', function(req, res, slots) {
-
-    var command = slots["Command"].value
+    var command = slots["Command"].value;
     var net = require('net');
 
     var tivoIp = config.tivoIp;
@@ -51,4 +58,6 @@ alexa.ended(function(req, res, reason) {
     console.log(reason);
 });
  
-app.listen(port);
+server.listen(port, function() {
+    console.log("Listening on port " + port);
+});

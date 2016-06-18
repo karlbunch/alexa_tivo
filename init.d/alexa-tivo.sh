@@ -1,15 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 
+APP_DIR="/Users/karl/alexa_tivo"
+NODE_EXEC=$(which node)
 NODE_ENV="production"
-PORT="8080"
-APP_DIR="/home/pi/workspace/alexa_tivo"
 NODE_APP="app.js"
 CONFIG_DIR="$APP_DIR"
 PID_DIR="$APP_DIR/pid"
 PID_FILE="$PID_DIR/app.pid"
 LOG_DIR="$APP_DIR/log"
 LOG_FILE="$LOG_DIR/app.log"
-NODE_EXEC=$(which node)
 
 ###############
 
@@ -52,7 +51,7 @@ start_it() {
     cd "$APP_DIR"
 
     echo "Starting node app ..."
-    PORT="$PORT" NODE_ENV="$NODE_ENV" NODE_CONFIG_DIR="$CONFIG_DIR" $NODE_EXEC "$APP_DIR/$NODE_APP"  1>"$LOG_FILE" 2>&1 &
+    NODE_ENV="$NODE_ENV" NODE_CONFIG_DIR="$CONFIG_DIR" $NODE_EXEC "$APP_DIR/$NODE_APP"  1>"$LOG_FILE" 2>&1 &
     echo $! > "$PID_FILE"
     echo "Node app started with pid $!"
 }
